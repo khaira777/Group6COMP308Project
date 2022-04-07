@@ -1,0 +1,38 @@
+{
+	"name": "group6comp308project",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "COMP308 Project - Your client needs an application to help nurse practitioners to monitor patients during the first weeks of their release from the hospital and also help the patients to monitor their daily activities.",
+	"main": "index.js",
+	"scripts": {
+		"start": "npm start dev",
+		"dev": "",
+		"client": "npm start --prefix client",
+		"server": "nodemon server"
+	},
+	"keywords": [
+		"comp308",
+		"assignment",
+		"project",
+		"nurse",
+		"patients",
+		"vital signs",
+		"AI",
+		"react",
+		"machine learning",
+		"deep learning",
+		"graphql"
+	],
+	"author": "Hoi Fong Ho",
+	"license": "ISC",
+	"devDependencies": {
+		"concurrently": "^7.1.0",
+		"nodemon": "^2.0.15"
+	},
+	"dependencies": {
+		"apollo-server-core": "^3.6.7",
+		"apollo-server-express": "^3.6.7",
+		"express": "^4.17.3",
+		"graphql": "^16.3.0"
+	}
+}
