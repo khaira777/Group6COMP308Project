@@ -5,10 +5,10 @@
 	"description": "COMP308 Project - Your client needs an application to help nurse practitioners to monitor patients during the first weeks of their release from the hospital and also help the patients to monitor their daily activities.",
 	"main": "index.js",
 	"scripts": {
-		"start": "npm start dev",
-		"dev": "",
-		"client": "npm start --prefix client",
-		"server": "nodemon server"
+		"start": "npm run dev",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"server": "nodemon --experimental-specifier-resolution=node server",
+		"client": "npm start --prefix client"
 	},
 	"keywords": [
 		"comp308",
@@ -27,12 +27,14 @@
 	"license": "ISC",
 	"devDependencies": {
 		"concurrently": "^7.1.0",
-		"nodemon": "^2.0.15"
+		"nodemon": "^2.0.15",
+		"dotenv": "^16.0.0"
 	},
 	"dependencies": {
 		"apollo-server-core": "^3.6.7",
 		"apollo-server-express": "^3.6.7",
 		"express": "^4.17.3",
-		"graphql": "^16.3.0"
+		"graphql": "^16.3.0",
+		"mongoose": "^6.2.10"
 	}
 }

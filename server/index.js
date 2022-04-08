@@ -1,21 +1,12 @@
-import { ApolloServer, gql } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import http from 'http';
+import 'dotenv/config';
+import { typeDefs, resolvers } from './graphql';
+import connectDB from './database/config';
 
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
-const typeDefs = gql`
-	type Book {
-		title: String
-		author: String
-	}
-
-	type Query {
-		books: [Book]
-	}
-`;
+connectDB();
 
 async function startApolloServer(typeDefs, resolvers) {
 	const app = express();
@@ -33,4 +24,4 @@ async function startApolloServer(typeDefs, resolvers) {
 	console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 
-startApolloServer(typeDefs);
+startApolloServer(typeDefs, resolvers);
