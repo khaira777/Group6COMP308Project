@@ -1,6 +1,5 @@
-import { Root, rootResolvers } from './root';
-import { User, userResolvers } from './user';
 import { Tip, tipResolvers } from './tip';
+import { User, userResolvers } from './user';
 
-export const typeDefs = [Root, User, Tip];
-export const resolvers = [rootResolvers, userResolvers, tipResolvers];
+export const typeDefs = [User, Tip];
+export const resolvers = [userResolvers, tipResolvers];

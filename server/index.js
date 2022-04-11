@@ -15,7 +15,6 @@ async function startApolloServer(typeDefs, resolvers) {
 		typeDefs,
 		resolvers,
 		plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-		mocks: true,
 	});
 
 	await server.start();

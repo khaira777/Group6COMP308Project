@@ -1,26 +1,24 @@
-import { useQuery, gql } from '@apollo/client';
-import { useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import NotFound from './pages/NotFound';
+import AppNavbar from './components/AppNavbar';
 
 function App() {
-	const { data } = useQuery(gql`
-		{
-			books {
-				id
-				title
-				author
-			}
-		}
-	`);
-
-	useEffect(() => {
-		if (data) console.log(data);
-	}, [data]);
-
 	return (
-		<div>
-			<Button>Hello</Button>
-		</div>
+		<Router>
+			<AppNavbar />
+			<Container>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
+					<Route path="*" element={<NotFound />} />
+				</Routes>
+			</Container>
+		</Router>
 	);
 }
 
