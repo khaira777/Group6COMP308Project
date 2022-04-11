@@ -22,4 +22,20 @@ export const USER_MUTATION = {
 			}
 		}
 	`,
+	REGISTER: gql`
+		mutation Register(
+			$name: String!
+			$email: String!
+			$password: String!
+			$type: UserType!
+		) {
+			register(name: $name, email: $email, password: $password, type: $type) {
+				_id
+				name
+				email
+				type
+				token
+			}
+		}
+	`,
 };

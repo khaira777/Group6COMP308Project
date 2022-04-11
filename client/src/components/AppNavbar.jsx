@@ -1,18 +1,15 @@
-import { useQuery } from '@apollo/client';
-import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
-import { USER_QUERY } from '../graphql/user';
+import useAuth from '../hooks/useAuth';
 
 function AppNavbar() {
-	const { data } = useQuery(USER_QUERY.IS_LOGGED_IN);
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const { isAuth, logout } = useAuth();
 
-	useEffect(() => {
-		if (data?.isLoggedIn) setIsLoggedIn(true);
-	}, [data?.isLoggedIn]);
+	const onLogout = () => {
+		logout();
+	};
 
 	return (
 		<Navbar bg="dark" variant="dark">
@@ -21,7 +18,7 @@ function AppNavbar() {
 					Home
 				</Navbar.Brand>
 
-				{!isLoggedIn && (
+				{!isAuth && (
 					<Nav className="ms-auto">
 						<Nav.Link as={Link} to="/login">
 							Login
@@ -32,7 +29,7 @@ function AppNavbar() {
 					</Nav>
 				)}
 
-				{isLoggedIn && (
+				{isAuth && (
 					<Nav className="ms-auto">
 						<Nav.Link
 							// TODO: Replace href to a game website
@@ -41,6 +38,7 @@ function AppNavbar() {
 							rel="noreferrer">
 							Fitness Games
 						</Nav.Link>
+						<Nav.Link onClick={onLogout}>Logout</Nav.Link>
 					</Nav>
 				)}
 			</Container>

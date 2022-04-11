@@ -1,17 +1,12 @@
-import { useMutation } from '@apollo/client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import Stack from 'react-bootstrap/Stack';
 import { useNavigate } from 'react-router-dom';
-import { isLoggedIn, USER_MUTATION } from '../graphql/user';
+import { USER_TYPE } from '../constants';
+import useAuth from '../hooks/useAuth';
 import useTransformCase from '../hooks/useTransformCase';
-
-const USER_TYPE = {
-	PATIENT: 'PATIENT',
-	NURSE: 'NURSE',
-};
 
 const initialCredential = {
 	email: '',
@@ -21,27 +16,15 @@ const initialCredential = {
 
 function Login() {
 	const [credentials, setCredentials] = useState(initialCredential);
-	const [error, setError] = useState('');
-	const [loading, setLoading] = useState(false);
 	const transform = useTransformCase();
 	const navigate = useNavigate();
-	const [login] = useMutation(USER_MUTATION.LOGIN, {
-		onCompleted: (data) => {
-			setLoading(false);
-			if (data?.login) {
-				localStorage.setItem('token', data.login.token);
-				isLoggedIn(true);
-				navigate('/');
-			}
-		},
-		onError: (err) => {
-			setError(err.message);
-			setLoading(false);
-			isLoggedIn(false);
-		},
-	});
+	const { loading, error, isAuth, login } = useAuth();
 
 	const { email, password, type } = credentials;
+
+	useEffect(() => {
+		isAuth && navigate('/');
+	}, [isAuth, navigate]);
 
 	const onChange = (e) => {
 		setCredentials((prevState) => ({
@@ -52,13 +35,11 @@ function Login() {
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
-		setLoading(true);
+		await login(credentials);
+	};
 
-		await login({
-			variables: {
-				...credentials,
-			},
-		});
+	const clearForm = () => {
+		setCredentials(initialCredential);
 	};
 
 	return (
@@ -109,7 +90,7 @@ function Login() {
 						'Login'
 					)}
 				</Button>
-				<Button variant="outline-secondary" type="reset">
+				<Button variant="outline-secondary" type="reset" onClick={clearForm}>
 					Clear
 				</Button>
 			</Stack>
