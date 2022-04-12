@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import { isLoggedIn } from './graphql/user';
+import { currentUser, isLoggedIn } from './graphql/user';
 
 const client = new ApolloClient({
 	uri: 'http://localhost:4000/graphql',
@@ -15,6 +15,11 @@ const client = new ApolloClient({
 					isLoggedIn: {
 						read() {
 							return isLoggedIn();
+						},
+					},
+					currentUser: {
+						read() {
+							return currentUser();
 						},
 					},
 				},

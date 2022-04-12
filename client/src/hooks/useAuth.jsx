@@ -1,26 +1,38 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
-import { isLoggedIn, USER_MUTATION, USER_QUERY } from '../graphql/user';
-
-const TOKEN_KEY = 'token';
+import {
+	currentUser,
+	isLoggedIn,
+	TOKEN_KEY,
+	USER_KEY,
+	USER_MUTATION,
+	USER_QUERY,
+} from '../graphql/user';
 
 function useAuth() {
+	// States
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [isAuth, setIsAuth] = useState(false);
-	const { data } = useQuery(USER_QUERY.IS_LOGGED_IN);
+	const [user, setUser] = useState(null);
+
+	// Queries
+	const { data: loginData } = useQuery(USER_QUERY.IS_LOGGED_IN);
+	const { data: currentUserData } = useQuery(USER_QUERY.CURRENT_USER);
+
+	// Mutations
 	const [loginMutation] = useMutation(USER_MUTATION.LOGIN, {
 		onCompleted: (data) => {
 			setLoading(false);
 			if (data?.login) {
-				localStorage.setItem(TOKEN_KEY, data.login.token);
-				isLoggedIn(true);
+				const { token, ...userInfo } = data.login;
+				setLocalAuthState(token, userInfo);
 			}
 		},
 		onError: (err) => {
 			setError(err.message);
 			setLoading(false);
-			isLoggedIn(false);
+			logout();
 		},
 	});
 
@@ -28,20 +40,35 @@ function useAuth() {
 		onCompleted: (data) => {
 			setLoading(false);
 			if (data?.register) {
-				localStorage.setItem(TOKEN_KEY, data.register.token);
-				isLoggedIn(true);
+				const { token, ...userInfo } = data.register;
+				setLocalAuthState(token, userInfo);
 			}
 		},
 		onError: (err) => {
 			setError(err.message);
 			setLoading(false);
-			isLoggedIn(false);
+			logout();
 		},
 	});
 
+	// useEffects
 	useEffect(() => {
-		data?.isLoggedIn ? setIsAuth(true) : setIsAuth(false);
-	}, [data?.isLoggedIn]);
+		loginData?.isLoggedIn ? setIsAuth(true) : setIsAuth(false);
+	}, [loginData?.isLoggedIn]);
+
+	useEffect(() => {
+		currentUserData?.currentUser
+			? setUser(currentUserData.currentUser)
+			: setUser(null);
+	}, [currentUserData?.currentUser]);
+
+	// Functions
+	const setLocalAuthState = (token, userInfo) => {
+		localStorage.setItem(TOKEN_KEY, token);
+		localStorage.setItem(USER_KEY, JSON.stringify(userInfo));
+		isLoggedIn(true);
+		currentUser(userInfo);
+	};
 
 	const login = async (credentials) => {
 		setLoading(true);
@@ -65,10 +92,12 @@ function useAuth() {
 
 	const logout = () => {
 		localStorage.removeItem(TOKEN_KEY);
+		localStorage.removeItem(USER_KEY);
 		isLoggedIn(false);
+		currentUser(null);
 	};
 
-	return { login, register, logout, loading, error, isAuth };
+	return { login, register, logout, loading, error, isAuth, user };
 }
 
 export default useAuth;

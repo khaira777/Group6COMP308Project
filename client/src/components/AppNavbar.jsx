@@ -3,19 +3,17 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import useTransformCase from '../hooks/useTransformCase';
 
 function AppNavbar() {
-	const { isAuth, logout } = useAuth();
-
-	const onLogout = () => {
-		logout();
-	};
+	const { isAuth, user, logout } = useAuth();
+	const transform = useTransformCase();
 
 	return (
 		<Navbar bg="dark" variant="dark">
 			<Container>
 				<Navbar.Brand as={Link} to="/">
-					Home
+					{user ? `${user.name} - ${transform(user.type)}` : 'Home'}
 				</Navbar.Brand>
 
 				{!isAuth && (
@@ -38,7 +36,7 @@ function AppNavbar() {
 							rel="noreferrer">
 							Fitness Games
 						</Nav.Link>
-						<Nav.Link onClick={onLogout}>Logout</Nav.Link>
+						<Nav.Link onClick={logout}>Logout</Nav.Link>
 					</Nav>
 				)}
 			</Container>
