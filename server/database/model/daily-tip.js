@@ -6,12 +6,9 @@ const schema = mongoose.Schema({
 		ref: 'User',
 		required: true,
 	},
-	message: {
+	content: {
 		type: String,
-	},
-	read: {
-		type: Boolean,
-		default: false,
+		required: true,
 	},
 	createdAt: {
 		type: Date,
@@ -19,4 +16,4 @@ const schema = mongoose.Schema({
 	},
 });
 
-export default mongoose.model('Alert', schema);
+export default mongoose.model('DailyTip', schema);

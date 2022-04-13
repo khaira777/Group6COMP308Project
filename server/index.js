@@ -5,6 +5,7 @@ import http from 'http';
 import 'dotenv/config';
 import { typeDefs, resolvers } from './graphql';
 import connectDB from './database/config';
+import { getUserIdFromToken } from './graphql/context/auth-context';
 
 connectDB();
 
@@ -15,6 +16,10 @@ async function startApolloServer(typeDefs, resolvers) {
 		typeDefs,
 		resolvers,
 		plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+		context: ({ req }) => {
+			const userId = getUserIdFromToken(req);
+			return { userId };
+		},
 	});
 
 	await server.start();
