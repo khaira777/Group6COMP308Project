@@ -1,27 +1,37 @@
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import CloseButton from 'react-bootstrap/CloseButton';
-import Modal from 'react-bootstrap/Modal';
-import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
+import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Stack from 'react-bootstrap/Stack';
+import { useNavigate } from 'react-router-dom';
 import { DAILY_TIP_MUTATION, DAILY_TIP_QUERY } from '../graphql/daily-tip';
+import DailyTipCard from './DailyTipCard';
 
 function DailyTip() {
 	const [showModal, setShowModal] = useState(false);
 	const [content, setContent] = useState('');
 	const [error, setError] = useState('');
-	const { data } = useQuery(DAILY_TIP_QUERY.GET_ALL_DAILY_TIPS);
+	const [dailyTips, setDailyTips] = useState([]);
 	const [addDailyTipMutation] = useMutation(DAILY_TIP_MUTATION.ADD_DAILY_TIP, {
 		onCompleted: (data) => {
-			console.log(data);
+			if (data) {
+				setDailyTips((prev) => [...prev, data.addDailyTip]);
+			}
 			closeModal();
 		},
 		onError: (error) => {},
 	});
+	const navigate = useNavigate();
 
-	useEffect(() => {
-		console.log(data?.dailyTips);
-	}, [data?.dailyTips]);
+	useQuery(DAILY_TIP_QUERY.GET_ALL_DAILY_TIPS, {
+		onCompleted: (data) => {
+			setDailyTips(data?.dailyTips);
+		},
+		onError: (_) => {
+			navigate('/not-found');
+		},
+	});
 
 	const openModal = () => setShowModal(true);
 
@@ -45,8 +55,15 @@ function DailyTip() {
 	};
 
 	return (
-		<>
-			<CloseButton style={{ transform: 'rotate(45deg)' }} onClick={openModal} />
+		<Stack gap={3} className="m-3">
+			<Stack
+				direction="horizontal"
+				className="align-items-center justify-content-between">
+				<h2 className="m-0">Daily Motivational Tips</h2>
+				<Button className="m-0 align-self-end" onClick={openModal}>
+					Add Daily Tip
+				</Button>
+			</Stack>
 
 			<Modal show={showModal} onHide={closeModal}>
 				<Modal.Header closeButton>
@@ -74,13 +91,10 @@ function DailyTip() {
 				</Modal.Footer>
 			</Modal>
 
-			{data?.dailyTips?.map((dailyTip) => (
-				<p key={dailyTip._id}>
-					{dailyTip.content}
-					<small>{dailyTip.user.name}</small>
-				</p>
+			{dailyTips?.map((dailyTip) => (
+				<DailyTipCard key={dailyTip._id} dailyTip={dailyTip} />
 			))}
-		</>
+		</Stack>
 	);
 }
 export default DailyTip;

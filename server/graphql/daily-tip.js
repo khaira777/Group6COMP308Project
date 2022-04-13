@@ -27,7 +27,9 @@ export const dailyTipResolvers = {
 			}
 
 			const user = await UserModel.findById(ctx.userId);
-			const dailyTips = await DailyTipModel.find();
+			const dailyTips = await DailyTipModel.find()
+				.sort({ createdAt: 'desc' })
+				.limit(10);
 			return dailyTips.map((dailyTip) => {
 				return { ...dailyTip._doc, user };
 			});

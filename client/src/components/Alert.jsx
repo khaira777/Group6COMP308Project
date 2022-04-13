@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
 import Toast from 'react-bootstrap/Toast';
 import { ALERT_MUTATION } from '../graphql/alert';
+import useDate from '../hooks/useDate';
 
 function Alert() {
 	const [loading, setLoading] = useState(false);
@@ -14,6 +15,7 @@ function Alert() {
 	const [alert, setAlert] = useState(null);
 	const [message, setMessage] = useState('');
 	const [formError, setFormError] = useState('');
+	const getDate = useDate();
 	const [sendAlertMutation] = useMutation(ALERT_MUTATION.SEND_ALERT, {
 		onCompleted: (data) => {
 			if (data) {
@@ -48,10 +50,6 @@ function Alert() {
 		} else {
 			setFormError('Please enter a message');
 		}
-	};
-
-	const getDate = () => {
-		return new Date(parseInt(alert.createdAt))?.toLocaleString() || '';
 	};
 
 	const onMessageChange = (e) => {
@@ -119,16 +117,17 @@ function Alert() {
 						right: '12px',
 						top: '12px',
 						border: 'none',
+						minWidth: '400px',
 					}}>
 					<Toast.Header>
 						<strong className="me-auto text-danger">
 							Emergency Alert Sent
 						</strong>
-						<small className="text-muted">{getDate()}</small>
+						<small className="text-muted">{getDate(alert.createdAt)}</small>
 					</Toast.Header>
 					<Toast.Body>
 						<p>Your message: {alert.message}</p>
-						<p className="text-muted">
+						<p className="text-muted" style={{ width: 'max-content' }}>
 							First responders will take action as soon as possible!
 						</p>
 					</Toast.Body>
