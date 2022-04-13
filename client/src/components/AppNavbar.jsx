@@ -25,32 +25,38 @@ function AppNavbar() {
 				</Navbar.Brand>
 				{isAuth && user?.type === USER_TYPE.PATIENT && <Alert />}
 
-				{!isAuth && (
-					<Nav className="ms-auto">
-						<Nav.Link as={Link} to="/login">
-							Login
-						</Nav.Link>
-						<Nav.Link as={Link} to="/Register">
-							Register
-						</Nav.Link>
-					</Nav>
-				)}
+				<Nav className="ms-auto">
+					<Nav.Link as={Link} to="/">
+						Home
+					</Nav.Link>
 
-				{isAuth && (
-					<Nav className="ms-auto">
-						<Nav.Link as={Link} to="/daily-tip">
-							Daily Tip
-						</Nav.Link>
-						<Nav.Link
-							// TODO: Replace href to a game website
-							href="https://www.google.com"
-							target="_blank"
-							rel="noreferrer">
-							Fitness Games
-						</Nav.Link>
-						<Nav.Link onClick={onLogout}>Logout</Nav.Link>
-					</Nav>
-				)}
+					{!isAuth && (
+						<>
+							<Nav.Link as={Link} to="/login">
+								Login
+							</Nav.Link>
+							<Nav.Link as={Link} to="/Register">
+								Register
+							</Nav.Link>
+						</>
+					)}
+
+					{isAuth && (
+						<>
+							<Nav.Link as={Link} to="/daily-tip">
+								Daily Tips
+							</Nav.Link>
+							<Nav.Link
+								// TODO: Replace href to a game website
+								href="https://www.google.com"
+								target="_blank"
+								rel="noreferrer">
+								Fitness Games
+							</Nav.Link>
+							<Nav.Link onClick={onLogout}>Logout</Nav.Link>
+						</>
+					)}
+				</Nav>
 			</Container>
 		</Navbar>
 	);

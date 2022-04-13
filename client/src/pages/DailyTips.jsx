@@ -7,16 +7,19 @@ import Stack from 'react-bootstrap/Stack';
 import { useNavigate } from 'react-router-dom';
 import { DAILY_TIP_MUTATION, DAILY_TIP_QUERY } from '../graphql/daily-tip';
 import DailyTipCard from './DailyTipCard';
+import useAuth from '../hooks/useAuth';
+import { USER_TYPE } from '../constants';
 
-function DailyTip() {
+function DailyTips() {
 	const [showModal, setShowModal] = useState(false);
 	const [content, setContent] = useState('');
 	const [error, setError] = useState('');
 	const [dailyTips, setDailyTips] = useState([]);
+	const { user } = useAuth();
 	const [addDailyTipMutation] = useMutation(DAILY_TIP_MUTATION.ADD_DAILY_TIP, {
 		onCompleted: (data) => {
 			if (data) {
-				setDailyTips((prev) => [...prev, data.addDailyTip]);
+				setDailyTips((prev) => [data.addDailyTip, ...prev]);
 			}
 			closeModal();
 		},
@@ -60,9 +63,11 @@ function DailyTip() {
 				direction="horizontal"
 				className="align-items-center justify-content-between">
 				<h2 className="m-0">Daily Motivational Tips</h2>
-				<Button className="m-0 align-self-end" onClick={openModal}>
-					Add Daily Tip
-				</Button>
+				{user?.type === USER_TYPE.NURSE && (
+					<Button className="m-0 align-self-end" onClick={openModal}>
+						Add Daily Tip
+					</Button>
+				)}
 			</Stack>
 
 			<Modal show={showModal} onHide={closeModal}>
@@ -97,4 +102,4 @@ function DailyTip() {
 		</Stack>
 	);
 }
-export default DailyTip;
+export default DailyTips;

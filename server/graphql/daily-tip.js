@@ -44,7 +44,8 @@ export const dailyTipResolvers = {
 				throw new Error('You must be logged in to add a daily tip');
 			}
 
-			const dailyTip = new DailyTipModel({ content, user: userId });
+			const user = await UserModel.findById(userId);
+			const dailyTip = new DailyTipModel({ content, user });
 			return await dailyTip.save();
 		},
 	},
