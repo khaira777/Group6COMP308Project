@@ -6,7 +6,6 @@ import 'dotenv/config';
 import { typeDefs, resolvers } from './graphql/index.js';
 import connectDB from './database/config.js';
 import { getUserIdFromToken } from './graphql/context/auth-context.js';
-import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
