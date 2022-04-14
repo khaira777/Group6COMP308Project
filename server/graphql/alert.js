@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server-express';
-import AlertModel from '../database/model/alert';
+import AlertModel from '../database/model/alert.js';
 
 export const Alert = gql`
 	type Mutation {

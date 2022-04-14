@@ -5,9 +5,9 @@
 	"description": "COMP308 Project - Your client needs an application to help nurse practitioners to monitor patients during the first weeks of their release from the hospital and also help the patients to monitor their daily activities.",
 	"main": "index.js",
 	"scripts": {
-		"start": "node --es-module-specifier-resolution=node server",
+		"start": "node server/index.js",
 		"dev": "concurrently \"npm run server\" \"npm run client\"",
-		"server": "nodemon --experimental-specifier-resolution=node server",
+		"server": "nodemon server/index.js",
 		"client": "npm start --prefix client",
 		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
 	},

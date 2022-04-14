@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import UserModel from '../database/model/user';
+import UserModel from '../database/model/user.js';
 
 // TODO: May not need verifyToken query
 export const User = gql`

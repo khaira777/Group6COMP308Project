@@ -3,16 +3,19 @@ import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import http from 'http';
 import 'dotenv/config';
-import { typeDefs, resolvers } from './graphql';
-import connectDB from './database/config';
-import { getUserIdFromToken } from './graphql/context/auth-context';
+import { typeDefs, resolvers } from './graphql/index.js';
+import connectDB from './database/config.js';
+import { getUserIdFromToken } from './graphql/context/auth-context.js';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const PORT = process.env.PORT || 4000;
+const PATH = process.env.NODE_ENV === 'production' ? '/' : '/graphql';
 
 connectDB();
+
+const app = express();
 
 // Serve Frontend
 if (process.env.NODE_ENV === 'production') {
@@ -29,9 +32,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 async function startApolloServer(typeDefs, resolvers) {
-	const app = express();
-	app.use(cors());
-
 	const httpServer = http.createServer(app);
 	const server = new ApolloServer({
 		typeDefs,
@@ -44,7 +44,7 @@ async function startApolloServer(typeDefs, resolvers) {
 	});
 
 	await server.start();
-	server.applyMiddleware({ app });
+	server.applyMiddleware({ app, path: PATH });
 	await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
 	console.log(
 		`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`

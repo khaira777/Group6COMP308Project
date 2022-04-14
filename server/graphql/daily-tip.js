@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express';
-import DailyTipModel from '../database/model/daily-tip';
-import UserModel from '../database/model/user';
+import DailyTipModel from '../database/model/daily-tip.js';
+import UserModel from '../database/model/user.js';
 
 export const DailyTip = gql`
 	type Query {
