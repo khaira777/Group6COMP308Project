@@ -6,11 +6,19 @@ import 'dotenv/config';
 import { typeDefs, resolvers } from './graphql';
 import connectDB from './database/config';
 import { getUserIdFromToken } from './graphql/context/auth-context';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const PORT = process.env.PORT || 4000;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 connectDB();
 
 async function startApolloServer(typeDefs, resolvers) {
 	const app = express();
+	app.use(cors());
+
 	const httpServer = http.createServer(app);
 	const server = new ApolloServer({
 		typeDefs,
@@ -22,10 +30,18 @@ async function startApolloServer(typeDefs, resolvers) {
 		},
 	});
 
+	app.use(express.static(path.join(__dirname, '../client/build')));
+
+	app.get('*', (req, res) =>
+		res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
+	);
+
 	await server.start();
 	server.applyMiddleware({ app });
-	await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
-	console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+	await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
+	console.log(
+		`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
+	);
 }
 
 startApolloServer(typeDefs, resolvers);
