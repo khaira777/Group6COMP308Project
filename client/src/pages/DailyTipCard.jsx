@@ -7,7 +7,7 @@ function DailyTipCard({ dailyTip: { content, user, createdAt } }) {
 	return (
 		<Card>
 			<Card.Header className="d-flex justify-content-between align-items-center">
-				<Card.Title className="m-0">{user.name}</Card.Title>
+				<Card.Title className="m-0">From: Nurse {user.name}</Card.Title>
 				<small>{getDate(createdAt)}</small>
 			</Card.Header>
 			<Card.Body>
