@@ -8,7 +8,6 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { VITAL_SIGN_MUTATION, VITAL_SIGN_QUERY } from '../graphql/vital-sign';
 import useAuth from '../hooks/useAuth';
-import useDate from '../hooks/useDate';
 import PatientSearch from './PatientSearch';
 import PatientVisitRecords from './PatientVisitRecords';
 
