@@ -18,6 +18,7 @@ function AppNavbar() {
 	};
 
 	return (
+		// TODO: Convert to OffCanvas for responsiveness when have time
 		<Navbar bg="dark" variant="dark">
 			<Container>
 				<Navbar.Brand className="me-5" as={Link} to="/">

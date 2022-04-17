@@ -6,7 +6,7 @@ import UserModel from '../database/model/user.js';
 // TODO: May not need verifyToken query
 export const User = gql`
 	type Query {
-		verifyToken(token: String!): User
+		getPatients: [User]
 	}
 
 	type Mutation {
@@ -35,24 +35,15 @@ export const User = gql`
 
 export const userResolvers = {
 	Query: {
-		verifyToken: async (parent, args, ctx, info) => {
-			const INVALID_TOKEN_ERROR = new Error('Invalid Token');
-
-			try {
-				const { token } = args;
-				const { _id } = jwt.verify(token, process.env.JWT_SECRET);
-				const userData = await UserModel.findById(_id, null, {
-					lean: true,
-				}).select('-password');
-
-				if (!userData) {
-					throw INVALID_TOKEN_ERROR;
-				}
-
-				return { ...userData, token };
-			} catch (error) {
-				throw INVALID_TOKEN_ERROR;
+		getPatients: async (parent, args, ctx, info) => {
+			if (!ctx.userId) {
+				throw new Error('You must be logged in');
 			}
+			const user = await UserModel.findOne({ _id: ctx.userId, type: 'NURSE' });
+			if (!user) {
+				throw new Error('You must be a nurse to view patient info');
+			}
+			return await UserModel.find({ type: 'PATIENT' });
 		},
 	},
 	Mutation: {

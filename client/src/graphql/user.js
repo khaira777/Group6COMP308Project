@@ -20,6 +20,16 @@ export const USER_QUERY = {
 			currentUser @client
 		}
 	`,
+	GET_PATIENTS: gql`
+		query GetPatients {
+			getPatients {
+				_id
+				name
+				email
+				type
+			}
+		}
+	`,
 };
 
 // Mutations

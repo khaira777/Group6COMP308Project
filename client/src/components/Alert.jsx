@@ -15,7 +15,7 @@ function Alert() {
 	const [alert, setAlert] = useState(null);
 	const [message, setMessage] = useState('');
 	const [formError, setFormError] = useState('');
-	const getDate = useDate();
+	const { getDateStringFromMilliseconds } = useDate();
 	const [sendAlertMutation] = useMutation(ALERT_MUTATION.SEND_ALERT, {
 		onCompleted: (data) => {
 			if (data) {
@@ -123,7 +123,9 @@ function Alert() {
 						<strong className="me-auto text-danger">
 							Emergency Alert Sent
 						</strong>
-						<small className="text-muted">{getDate(alert.createdAt)}</small>
+						<small className="text-muted">
+							{getDateStringFromMilliseconds(alert.createdAt)}
+						</small>
 					</Toast.Header>
 					<Toast.Body>
 						<p>Your message: {alert.message}</p>
