@@ -30,12 +30,13 @@ const schema = mongoose.Schema(
 		date: {
 			type: Date,
 			default: Date.now,
-			unique: true,
 		},
 	},
 	{
 		timestamps: true,
 	}
 );
+
+schema.index({ patient: 1, date: 1 }, { unique: true });
 
 export default mongoose.model('DailyInfo', schema);
