@@ -73,11 +73,12 @@ function PatientVisitRecords({ vitalSigns, setVitalSigns }) {
 					_id: editVitalSign._id,
 				},
 			});
-		} catch (error) {
-			setError('Error editing vital sign');
-		}
 
-		setShowEditModal(false);
+			setShowEditModal(false);
+			setError('');
+		} catch (error) {
+			setError(error?.message);
+		}
 	};
 
 	return (

@@ -6,6 +6,7 @@ function VitalSignForm({
 	onSubmit,
 	vitalSign,
 	error,
+	setError,
 	setVitalSign,
 	isEdit,
 }) {
@@ -26,6 +27,7 @@ function VitalSignForm({
 			heartRate: '',
 			visitDate: '',
 		}));
+		setError('');
 	};
 
 	return (

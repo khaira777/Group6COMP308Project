@@ -48,8 +48,7 @@ function AppNavbar() {
 								Daily Tips
 							</Nav.Link>
 							<Nav.Link
-								// TODO: Replace href to a game website
-								href="https://www.google.com"
+								href="https://justdancenow.com/"
 								target="_blank"
 								rel="noreferrer">
 								Fitness Games

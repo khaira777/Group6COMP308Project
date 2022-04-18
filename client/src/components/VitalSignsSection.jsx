@@ -74,6 +74,7 @@ function VitalSignsSection() {
 			if (addedVitalSigns) {
 				setVitalSigns((prev) => [addedVitalSigns.data.addVitalSign, ...prev]);
 				setVitalSign(initialVitalSign);
+				setError('');
 			}
 		} catch (error) {
 			setError(error?.message);
@@ -102,9 +103,11 @@ function VitalSignsSection() {
 						<Col xs={12} lg={4} className="mb-3">
 							<VitalSignForm
 								patient={patient}
-								setVitalSign={setVitalSign}
 								vitalSign={vitalSign}
+								error={error}
 								onSubmit={onSubmit}
+								setVitalSign={setVitalSign}
+								setError={setError}
 							/>
 						</Col>
 

@@ -36,20 +36,27 @@ export const DailyInfo = gql`
 export const dailyInfoResolvers = {
 	Query: {
 		dailyInfo: async (parent, args, { userId }, info) => {
-			return await DailyInfoModel.find({ patient: userId });
+			return await DailyInfoModel.find({ patient: userId }).populate('patient');
 		},
 	},
 	Mutation: {
-		addDailyInfo: async (_, { dailyInfo }) => {
-			const newDailyInfo = new DailyInfoModel(dailyInfo);
-			return await newDailyInfo.save();
+		addDailyInfo: async (parent, { dailyInfo }, { userId }, info) => {
+			const newDailyInfo = await DailyInfoModel.create({
+				...dailyInfo,
+				patient: userId,
+			}).catch((error) => {
+				if (error.code === 11000) {
+					throw new Error('You already added daily info for today');
+				}
+			});
+			return await newDailyInfo.populate('patient');
 		},
 		updateDailyInfo: async (parent, { _id, dailyInfo }, { userId }) => {
 			return await DailyInfoModel.findOneAndUpdate({ _id }, dailyInfo, {
 				new: true,
-			});
+			}).populate('patient');
 		},
-		deleteDailyInfo: async (_, { _id }) => {
+		deleteDailyInfo: async (parent, { _id }) => {
 			await DailyInfoModel.findOneAndDelete({ _id });
 			return _id;
 		},
