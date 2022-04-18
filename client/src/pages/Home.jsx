@@ -1,5 +1,5 @@
 import Container from 'react-bootstrap/Container';
-import VitalSignsForm from '../components/VitalSignsForm';
+import VitalSignsSection from '../components/VitalSignsSection';
 import useAuth from '../hooks/useAuth';
 import { USER_TYPE } from '../constants';
 
@@ -8,7 +8,7 @@ function Home() {
 
 	return (
 		<Container>
-			{user?.type === USER_TYPE.NURSE && <VitalSignsForm />}
+			{user?.type === USER_TYPE.NURSE && <VitalSignsSection />}
 		</Container>
 	);
 }

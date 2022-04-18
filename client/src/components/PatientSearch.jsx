@@ -6,7 +6,7 @@ import { USER_QUERY } from '../graphql/user';
 
 const filterByFields = ['name', 'email'];
 
-function PatientSearch({ setPatient }) {
+function PatientSearch({ setPatient, setVitalSign }) {
 	const [patients, setPatients] = useState([]);
 	const ref = useRef();
 
@@ -23,7 +23,14 @@ function PatientSearch({ setPatient }) {
 	const clearSearch = useCallback(() => {
 		ref.current.clear();
 		setPatient(null);
-	}, [setPatient]);
+		setVitalSign((prev) => ({
+			...prev,
+			bloodPressure: '',
+			heartRate: '',
+			bodyTemperature: '',
+			visitDate: '',
+		}));
+	}, [setPatient, setVitalSign]);
 
 	return (
 		<div className="d-flex justify-content-between gap-2">

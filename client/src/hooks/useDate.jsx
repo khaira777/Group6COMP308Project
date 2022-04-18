@@ -13,10 +13,42 @@ function useDate(dateOnly = false) {
 			minute: 'numeric',
 		});
 
-		return dateOnly ? dateString : `${dateString}, ${timeString}`;
+		return dateOnly ? dateString : `${dateString} - ${timeString}`;
 	};
 
-	return { getDateStringFromMilliseconds };
+	const getISODateStringFromMilliseconds = (milliseconds) => {
+		const date = new Date(parseInt(milliseconds));
+		const localOffset = date.getTimezoneOffset() * 60000;
+		const convertedDate = new Date(date.getTime() - localOffset)
+			.toISOString()
+			.substring(0, 16);
+
+		return convertedDate;
+	};
+
+	const checkIsDateAfterToday = (date) => {
+		const today = new Date();
+		const dateToCheck = new Date(date);
+
+		return dateToCheck > today;
+	};
+
+	const getToday = () => {
+		const date = new Date();
+		const localOffset = date.getTimezoneOffset() * 60000;
+		const today = new Date(date.getTime() - localOffset)
+			.toISOString()
+			.substring(0, 16);
+
+		return today;
+	};
+
+	return {
+		getDateStringFromMilliseconds,
+		getISODateStringFromMilliseconds,
+		getToday,
+		checkIsDateAfterToday,
+	};
 }
 
 export default useDate;

@@ -31,9 +31,39 @@ export const VITAL_SIGN_MUTATION = {
 				_id
 				nurse {
 					_id
+					name
+					email
 				}
 				patient {
 					_id
+					name
+					email
+				}
+				bodyTemperature
+				bloodPressure
+				heartRate
+				visitDate
+			}
+		}
+	`,
+	REMOVE_VITAL_SIGN: gql`
+		mutation RemoveVitalSign($_id: String!) {
+			removeVitalSign(_id: $_id)
+		}
+	`,
+	EDIT_VITAL_SIGN: gql`
+		mutation UpdateVitalSign($_id: String!, $vitalSignInput: VitalSignInput!) {
+			updateVitalSign(_id: $_id, vitalSignInput: $vitalSignInput) {
+				_id
+				nurse {
+					_id
+					name
+					email
+				}
+				patient {
+					_id
+					name
+					email
 				}
 				bodyTemperature
 				bloodPressure
