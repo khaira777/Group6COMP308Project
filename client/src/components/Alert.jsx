@@ -118,6 +118,7 @@ function Alert() {
 						top: '12px',
 						border: 'none',
 						minWidth: '400px',
+						zIndex: '9999',
 					}}>
 					<Toast.Header>
 						<strong className="me-auto text-danger">

@@ -94,27 +94,29 @@ function VitalSignsSection() {
 				/>
 			</Row>
 
-			<Dropdown.Divider className="my-4" />
-
 			{patient && (
-				<Row>
-					<Col xs={12} lg={4} className="mb-3">
-						<VitalSignForm
-							patient={patient}
-							setVitalSign={setVitalSign}
-							vitalSign={vitalSign}
-							onSubmit={onSubmit}
-						/>
-					</Col>
+				<>
+					<Dropdown.Divider className="my-4" />
 
-					<Col xs={12} lg={8}>
-						<PatientVisitRecords
-							patient={patient}
-							vitalSigns={vitalSigns}
-							setVitalSigns={setVitalSigns}
-						/>
-					</Col>
-				</Row>
+					<Row>
+						<Col xs={12} lg={4} className="mb-3">
+							<VitalSignForm
+								patient={patient}
+								setVitalSign={setVitalSign}
+								vitalSign={vitalSign}
+								onSubmit={onSubmit}
+							/>
+						</Col>
+
+						<Col xs={12} lg={8}>
+							<PatientVisitRecords
+								patient={patient}
+								vitalSigns={vitalSigns}
+								setVitalSigns={setVitalSigns}
+							/>
+						</Col>
+					</Row>
+				</>
 			)}
 		</Container>
 	);

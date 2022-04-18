@@ -1,0 +1,41 @@
+import mongoose from 'mongoose';
+
+const schema = mongoose.Schema(
+	{
+		patient: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
+		pulseRate: {
+			type: Number,
+			required: true,
+		},
+		bloodPressure: {
+			type: Number,
+			required: true,
+		},
+		weight: {
+			type: Number,
+			required: true,
+		},
+		bodyTemperature: {
+			type: Number,
+			required: true,
+		},
+		respiratoryRate: {
+			type: Number,
+			required: true,
+		},
+		date: {
+			type: Date,
+			default: Date.now,
+			unique: true,
+		},
+	},
+	{
+		timestamps: true,
+	}
+);
+
+export default mongoose.model('DailyInfo', schema);

@@ -18,8 +18,8 @@ export const VitalSign = gql`
 		nurse: User!
 		patient: User!
 		bodyTemperature: Float!
-		bloodPressure: Float!
-		heartRate: Float!
+		bloodPressure: Int!
+		heartRate: Int!
 		visitDate: String!
 	}
 
@@ -27,8 +27,8 @@ export const VitalSign = gql`
 		nurseId: String!
 		patientId: String!
 		bodyTemperature: Float!
-		bloodPressure: Float!
-		heartRate: Float!
+		bloodPressure: Int!
+		heartRate: Int!
 		visitDate: String!
 	}
 `;

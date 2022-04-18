@@ -49,6 +49,7 @@ function PatientSearch({ setPatient, setVitalSign }) {
 				ref={ref}
 				maxResults={10}
 			/>
+
 			<Button variant="secondary" onClick={clearSearch}>
 				Clear
 			</Button>
