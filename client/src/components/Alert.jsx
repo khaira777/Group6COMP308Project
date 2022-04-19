@@ -119,6 +119,8 @@ function Alert() {
 						border: 'none',
 						minWidth: '400px',
 						zIndex: '9999',
+						backgroundColor: '#fff',
+						opacity: '1',
 					}}>
 					<Toast.Header>
 						<strong className="me-auto text-danger">

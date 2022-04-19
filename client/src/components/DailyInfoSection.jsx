@@ -15,7 +15,7 @@ function DailyInfoSection() {
 	const [isAddedDailyInfo, setIsAddedDailyInfo] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 
-	const [getDailyInfoRecords, { loading }] = useLazyQuery(
+	const [queryDailyInfoRecords, { loading }] = useLazyQuery(
 		DAILY_INFO_QUERY.GET_DAILY_INFO,
 		{
 			onCompleted: (data) => {
@@ -30,20 +30,25 @@ function DailyInfoSection() {
 	);
 
 	useEffect(() => {
-		getDailyInfoRecords();
-	}, [getDailyInfoRecords]);
+		queryDailyInfoRecords();
+	}, [queryDailyInfoRecords]);
 
 	useEffect(() => {
-		const isDailyInfoExists = dailyInfoRecords.some(
-			(di) =>
+		const isDailyInfoExists = dailyInfoRecords.some((di) => {
+			console.log(
+				di.date,
+				new Date().toLocaleDateString(undefined, { dateStyle: 'medium' })
+			);
+			return (
 				di.date ===
 				new Date().toLocaleDateString(undefined, { dateStyle: 'medium' })
-		);
+			);
+		});
 
 		if (isDailyInfoExists) {
 			setIsAddedDailyInfo(true);
 		}
-	}, [dailyInfoRecords, getDateStringFromMilliseconds]);
+	}, [dailyInfoRecords]);
 
 	const onEdit = (di) => {
 		setEditDailyInfoRecord(di);
