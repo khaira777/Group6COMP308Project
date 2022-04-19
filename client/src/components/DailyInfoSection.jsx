@@ -35,14 +35,7 @@ function DailyInfoSection() {
 
 	useEffect(() => {
 		const isDailyInfoExists = dailyInfoRecords.some((di) => {
-			console.log(
-				di.date,
-				new Date().toLocaleDateString(undefined, { dateStyle: 'medium' })
-			);
-			return (
-				di.date ===
-				new Date().toLocaleDateString(undefined, { dateStyle: 'medium' })
-			);
+			return new Date(di.date).toDateString() === new Date().toDateString();
 		});
 
 		if (isDailyInfoExists) {
