@@ -55,12 +55,16 @@ function AppNavbar() {
 							<Nav.Link as={Link} to="/daily-tip">
 								Daily Tips
 							</Nav.Link>
-							<Nav.Link
-								href="https://justdancenow.com/"
-								target="_blank"
-								rel="noreferrer">
-								Fitness Games
-							</Nav.Link>
+
+							{user?.type === USER_TYPE.PATIENT && (
+								<Nav.Link
+									href="https://justdancenow.com/"
+									target="_blank"
+									rel="noreferrer">
+									Fitness Games
+								</Nav.Link>
+							)}
+
 							<Nav.Link onClick={onLogout}>Logout</Nav.Link>
 						</>
 					)}
