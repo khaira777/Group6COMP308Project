@@ -19,12 +19,13 @@ function DailyInfoSection() {
 		DAILY_INFO_QUERY.GET_DAILY_INFO,
 		{
 			onCompleted: (data) => {
-				setDailyInfoRecords(
-					data.dailyInfo.map((di) => ({
-						...di,
-						date: getDateStringFromMilliseconds(di.date),
-					}))
-				);
+				const records = data.dailyInfo.map((di) => ({
+					...di,
+					date: getDateStringFromMilliseconds(di.date),
+				}));
+
+				setDailyInfoRecords(records);
+				checkIsAddedDailyInfo(records);
 			},
 		}
 	);
@@ -33,22 +34,18 @@ function DailyInfoSection() {
 		queryDailyInfoRecords();
 	}, [queryDailyInfoRecords]);
 
-	useEffect(() => {
-		const checkIsAddedDailyInfo = () => {
-			const isDailyInfoExists = dailyInfoRecords.some((di) => {
-				return (
-					new Date(di.date).toLocaleDateString() ===
-					new Date().toLocaleDateString()
-				);
-			});
+	const checkIsAddedDailyInfo = (records) => {
+		const isDailyInfoExists = records.some((di) => {
+			return (
+				new Date(di.date).toLocaleDateString() ===
+				new Date().toLocaleDateString()
+			);
+		});
 
-			if (isDailyInfoExists) {
-				setIsAddedDailyInfo(true);
-			}
-		};
-
-		checkIsAddedDailyInfo();
-	}, [dailyInfoRecords]);
+		if (isDailyInfoExists) {
+			setIsAddedDailyInfo(true);
+		}
+	};
 
 	const onEdit = (di) => {
 		setEditDailyInfoRecord(di);
