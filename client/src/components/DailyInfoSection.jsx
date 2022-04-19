@@ -34,13 +34,20 @@ function DailyInfoSection() {
 	}, [queryDailyInfoRecords]);
 
 	useEffect(() => {
-		const isDailyInfoExists = dailyInfoRecords.some((di) => {
-			return new Date(di.date).toDateString() === new Date().toDateString();
-		});
+		const checkIsAddedDailyInfo = () => {
+			const isDailyInfoExists = dailyInfoRecords.some((di) => {
+				return (
+					new Date(di.date).toLocaleDateString() ===
+					new Date().toLocaleDateString()
+				);
+			});
 
-		if (isDailyInfoExists) {
-			setIsAddedDailyInfo(true);
-		}
+			if (isDailyInfoExists) {
+				setIsAddedDailyInfo(true);
+			}
+		};
+
+		checkIsAddedDailyInfo();
 	}, [dailyInfoRecords]);
 
 	const onEdit = (di) => {
