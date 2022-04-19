@@ -42,11 +42,7 @@ function DailyInfoSection() {
 			);
 		});
 
-		if (isDailyInfoExists) {
-			setIsAddedDailyInfo(true);
-		} else {
-			setIsAddedDailyInfo(false);
-		}
+		setIsAddedDailyInfo(isDailyInfoExists);
 	};
 
 	const onEdit = (di) => {
