@@ -1,14 +1,14 @@
 function useTransformCase() {
-	const transform = (str) => {
-		return str
-			.toLowerCase()
-			.split(' ')
-			.map(function (word) {
-				return word.replace(word[0], word[0].toUpperCase());
-			})
-			.join(' ');
-	};
+  const transform = (str) => {
+    return str
+      .toLowerCase()
+      .split(" ")
+      .map(function (word) {
+        return word.replace(word[0], word[0].toUpperCase());
+      })
+      .join(" ");
+  };
 
-	return transform;
+  return transform;
 }
 export default useTransformCase;
